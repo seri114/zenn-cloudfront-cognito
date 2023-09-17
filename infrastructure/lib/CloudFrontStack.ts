@@ -36,6 +36,7 @@ export class CloudFrontStack extends Stack {
 
     const contentS3 = new aws_s3.Bucket(this, "s3Content", {
       bucketName: params.s3.bucketName,
+      blockPublicAccess: aws_s3.BlockPublicAccess.BLOCK_ACLS,
       removalPolicy: RemovalPolicy.DESTROY,
       publicReadAccess: true,
       websiteIndexDocument: "index.html",
@@ -105,10 +106,10 @@ export class CloudFrontStack extends Stack {
       })
     })
 
-    // Route 53 for cloudfront
-    const cloudfrontHostedZone = aws_route53.HostedZone.fromLookup(this, "cloudfront-hosted-zone", {
-      domainName: params.cloudfront.route53DomainName
-    })
+    // // Route 53 for cloudfront
+    // const cloudfrontHostedZone = aws_route53.HostedZone.fromLookup(this, "cloudfront-hosted-zone", {
+    //   domainName: params.cloudfront.route53DomainName
+    // })
     // new aws_route53.ARecord(this, "cloudfront-a-record", {
     //   zone: cloudfrontHostedZone,
     //   recordName: params.cloudfront.route53RecordName,

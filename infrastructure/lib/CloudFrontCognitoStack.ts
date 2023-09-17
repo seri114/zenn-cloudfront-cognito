@@ -27,6 +27,7 @@ export class CloudFrontCognitoStack extends Stack {
     super(scope, id, props);
 
     const contentS3 = new aws_s3.Bucket(this, "s3Content", {
+      blockPublicAccess: aws_s3.BlockPublicAccess.BLOCK_ACLS,
       bucketName: params.s3.bucketName,
       removalPolicy: RemovalPolicy.DESTROY,
       // publicReadAccess: true,

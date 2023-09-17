@@ -32,12 +32,8 @@ const cloudFront1Cognito = new lib.CloudFrontCognitoStack(
   {...lib.paramsCloudFront1Stack, lambdaEdgeStackId: `${idPrefix}-lambda-edge`},
   {env: lib.envApNortheast1, description}
 )
-const cloudFront1Cognito2 = new lib.CloudFrontCognitoStack2(
-  app,
-  `${idPrefix}-cloudfront-cognito-3`,
-  {...lib.paramsCloudFront1Stack, lambdaEdgeStackId: `${idPrefix}-lambda-edge`},
-  {env: lib.envApNortheast1, description}
-)
+
+cloudFront1Cognito.addDependency(cognitoLambdaEdge)
 
 const cloudFront2Cognito = new lib.CloudFrontCognitoStack(
   app,
@@ -45,6 +41,7 @@ const cloudFront2Cognito = new lib.CloudFrontCognitoStack(
   {...lib.paramsCloudFront2Stack, lambdaEdgeStackId: `${idPrefix}-lambda-edge`},
   {env: lib.envApNortheast1, description}
 )
+cloudFront2Cognito.addDependency(cognitoLambdaEdge)
 
 Tags.of(cognito).add("project", "zenn-cloudfront-cognito")
 Tags.of(cognitoLambdaEdge).add("project", "zenn-cloudfront-cognito")
