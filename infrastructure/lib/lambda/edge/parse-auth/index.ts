@@ -16,7 +16,7 @@ export const handler: CloudFrontRequestHandler = async (event) => {
   CONFIG.logger.debug("Event:", event);
   const request = event.Records[0].cf.request;
   const domainName = request.headers["host"][0].value;
-  const cognitoTokenEndpoint = `https://${CONFIG.cognitoAuthDomain}/oauth2/token`;
+  const cognitoTokenEndpoint = "https://seritestorg3.b2clogin.com/seritestorg3.onmicrosoft.com/B2C_1_Frontendapp_signupandsignin/oauth2/v2.0/token";
   let redirectedFromUri = `https://${domainName}`;
   let idTokenInCookies: string | undefined = undefined;
   try {

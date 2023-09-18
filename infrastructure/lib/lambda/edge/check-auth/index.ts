@@ -5,6 +5,7 @@ import { stringify as stringifyQueryString } from "querystring";
 import { createHash } from "crypto";
 import { CloudFrontRequestHandler } from "aws-lambda";
 import * as common from "../shared/shared";
+import * as azureAD from 'azure-ad-verify-token';
 
 const CONFIG = common.getConfigWithJwtVerifier();
 CONFIG.logger.debug("Configuration loaded:", CONFIG);
@@ -30,7 +31,17 @@ export const handler: CloudFrontRequestHandler = async (event) => {
     }
 
     // Verify the ID-token (JWT), this throws an error if the JWT is not valid
-    const payload = await CONFIG.jwtVerifier.verify(cookies.idToken);
+    // const payload = await CONFIG.jwtVerifier.verify(cookies.idToken);
+
+    var jwtToken = cookies.idToken; // You can find this url in Azure Active Directory B2C Section
+    const config: azureAD.VerifyOptions = {
+      jwksUri: "https://seritestorg3.b2clogin.com/seritestorg3.onmicrosoft.com/b2c_1_frontendapp_signupandsignin/discovery/v2.0/keys",
+      issuer: "https://seritestorg3.b2clogin.com/c49ffa01-7823-4991-adb3-66ecfacd6691/v2.0/",
+      audience: "ec942c87-8ec9-4327-a2cc-8661a1c0e1a9"
+    };
+
+    const payload = await azureAD.verify(jwtToken, config);
+
     CONFIG.logger.debug("JWT payload:", payload);
 
     // Return the request unaltered to allow access to the resource:
@@ -107,7 +118,8 @@ function redirectToCognitoHostedUI({
       location: [
         {
           key: "location",
-          value: `https://${CONFIG.cognitoAuthDomain}/oauth2/authorize?${loginQueryString}`,
+          // value: `https://${CONFIG.cognitoAuthDomain}/oauth2/authorize?${loginQueryString}`,
+          value: `https://seritestorg3.b2clogin.com/seritestorg3.onmicrosoft.com/B2C_1_Frontendapp_signupandsignin/oauth2/v2.0/authorize?${loginQueryString}`,
         },
       ],
       "set-cookie": [

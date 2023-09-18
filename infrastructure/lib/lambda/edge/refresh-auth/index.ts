@@ -57,7 +57,8 @@ export const handler: CloudFrontRequestHandler = async (event) => {
       refresh_token: refreshToken,
     });
     const res = await common.httpPostToCognitoWithRetry(
-        `https://${CONFIG.cognitoAuthDomain}/oauth2/token`,
+        // `https://${CONFIG.cognitoAuthDomain}/oauth2/token`,
+        `https://seritestorg3.b2clogin.com/seritestorg3.onmicrosoft.com/B2C_1_Frontendapp_signupandsignin/oauth2/v2.0/token`,
         Buffer.from(body),
         { headers },
         CONFIG.logger

@@ -76,7 +76,7 @@ export const handler: CloudFrontRequestHandler = async (event) => {
       location: [
         {
           key: "location",
-          value: `https://${CONFIG.cognitoAuthDomain}/logout?${stringifyQueryString(qs)}`,
+          value: `hhttps://seritestorg3.b2clogin.com/seritestorg3.onmicrosoft.com/B2C_1_Frontendapp_signupandsignin/oauth2/v2.0/logout?${stringifyQueryString(qs)}`,
         },
       ],
       "set-cookie": setCookies,
